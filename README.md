@@ -175,7 +175,103 @@ C	1100	12
 D	1101	13
 E	1110	14
 F	1111	15
+7 Verilog Keywords (Reserved Words)
 
+Verilog has a set of keywords that are reserved — you cannot use them as identifiers (variable names, module names, etc.).
+
+Here’s a categorized list:
+
+🔹 Module & Structure
+
+module, endmodule
+
+primitive, endprimitive
+
+macromodule
+
+🔹 Data Types
+
+wire, reg, tri, tri0, tri1, triand, trior, trireg
+
+supply0, supply1
+
+integer, real, time, realtime
+
+parameter, localparam
+
+🔹 Procedural Blocks
+
+initial, always
+
+🔹 Control Flow
+
+begin, end
+
+if, else
+
+case, endcase
+
+for, while, repeat, forever
+
+disable
+
+🔹 Timing & Event Control
+
+# (delay operator, not a keyword but syntax)
+
+@ (event control)
+
+posedge, negedge
+
+wait
+
+🔹 Operators (keywords-like)
+
+and, or, xor, xnor, not, nand, nor
+
+🔹 Tasks & Functions
+
+task, endtask
+
+function, endfunction
+
+🔹 Generate
+
+generate, endgenerate
+
+🔹 Miscellaneous
+
+assign, deassign, force, release
+
+specify, endspecify
+
+specparam
+
+defparam
+
+event
+
+genvar
+
+🔹 System Tasks (start with $)
+
+These are not keywords in the strict sense, but built-in system tasks:
+
+$display, $monitor, $finish, $stop
+
+$time, $realtime, $random
+
+$dumpvars, $dumpoff, $dumpfile
+
+⚠️ Important: You cannot use $ at the beginning of an identifier → reserved for system tasks.
+
+✅ Key Notes
+
+Keywords are case-sensitive → Module ≠ module.
+
+Cannot be used as identifiers (e.g., reg module; ❌).
+
+System tasks always start with $.
  Summary
 Abstraction levels: Switch → Gate → RTL → Algorithmic
 
