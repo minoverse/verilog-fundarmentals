@@ -13,7 +13,7 @@ It is written as a learning reference with **explanations + example codes**.
 4. White Space
 5. Numbers
 6. Hexadecimal Conversion Table
-
+7 Verilog Keywords 
 ---
 
 ## 1️ Abstraction Levels
@@ -181,7 +181,7 @@ Verilog has a set of keywords that are reserved — you cannot use them as ident
 
 Here’s a categorized list:
 
-🔹 Module & Structure
+* Module & Structure
 
 module, endmodule
 
@@ -189,7 +189,7 @@ primitive, endprimitive
 
 macromodule
 
-🔹 Data Types
+* Data Types
 
 wire, reg, tri, tri0, tri1, triand, trior, trireg
 
@@ -199,11 +199,11 @@ integer, real, time, realtime
 
 parameter, localparam
 
-🔹 Procedural Blocks
+* Procedural Blocks
 
 initial, always
 
-🔹 Control Flow
+* Control Flow
 
 begin, end
 
@@ -215,7 +215,7 @@ for, while, repeat, forever
 
 disable
 
-🔹 Timing & Event Control
+* Timing & Event Control
 
 # (delay operator, not a keyword but syntax)
 
@@ -225,21 +225,21 @@ posedge, negedge
 
 wait
 
-🔹 Operators (keywords-like)
+* Operators (keywords-like)
 
 and, or, xor, xnor, not, nand, nor
 
-🔹 Tasks & Functions
+* Tasks & Functions
 
 task, endtask
 
 function, endfunction
 
-🔹 Generate
+* Generate
 
 generate, endgenerate
 
-🔹 Miscellaneous
+* Miscellaneous
 
 assign, deassign, force, release
 
@@ -253,7 +253,7 @@ event
 
 genvar
 
-🔹 System Tasks (start with $)
+* System Tasks (start with $)
 
 These are not keywords in the strict sense, but built-in system tasks:
 
@@ -263,9 +263,9 @@ $time, $realtime, $random
 
 $dumpvars, $dumpoff, $dumpfile
 
-⚠️ Important: You cannot use $ at the beginning of an identifier → reserved for system tasks.
+ Important: You cannot use $ at the beginning of an identifier → reserved for system tasks.
 
-✅ Key Notes
+ Key Notes
 
 Keywords are case-sensitive → Module ≠ module.
 
