@@ -273,6 +273,104 @@ reg a = 1'b0;   // logic 0
 reg b = 1'b1;   // logic 1
 reg c = 1'bx;   // unknown
 reg d = 1'bz;   // high impedance
+Nets vs. variables
+
+wire (a net)
+
+Does not store a value. It just reflects whatever its drivers are doing.
+
+Must be driven continuously (e.g., by assign, a module port, or a primitive).
+
+Example: assign y = a & b; // y must be a net (default wire).
+
+reg (a variable)
+
+Stores the last value assigned in a procedural block (always, initial).
+
+Not driven by assign.
+
+Default width is 1 bit unless you declare a vector: reg [7:0] r;
+
+Ports: input, output, inout — wire or reg?
+
+In classic Verilog (1995/2001):
+
+input: must be a net (defaults to wire). You can’t write input reg (that’s illegal in Verilog; it’s allowed only in SystemVerilog with logic).
+
+output: can be a net or a reg.
+
+Use output reg if you assign it inside an always/initial.
+
+Use plain output (wire) if you drive it with a continuous assignment or by connecting through.
+
+inout: must be a net (tri-state bus), i.e., a wire (often tri). Not a reg.
+
+Quick examples:
+
+module m(
+  input       a,            // wire by default
+  input [3:0] b,            // wire [3:0]
+  output      y,            // wire (must be driven by assign or instance)
+  output reg  q,            // reg (driven in always)
+  inout       sda           // wire/tri (tri-stated somewhere)
+);
+  assign y = a & b[0];      // ok: y is a wire
+  always @* q = a ^ b[1];   // ok: q is a reg
+endmodule
+
+assign vs. procedural assignment
+
+assign → continuous, for nets (wire).
+Example: assign sum = x + y;
+
+Procedural =/<= inside always/initial → for regs.
+Example:
+
+always @(posedge clk) q <= d;
+
+integer type
+
+integer in Verilog is a 32-bit signed variable (4-state).
+
+Good for loop indices, counters in testbenches, file I/O, etc.
+
+It’s a variable like reg but fixed width = 32 bits and signed.
+
+Other built-ins: time (64-bit unsigned), real (double), etc.
+
+Sizing constants (avoid accidental truncation/sign issues)
+
+Unsized literals default to 32-bit and may sign-extend if used in signed contexts.
+
+Best practice: size your literals to the signal width you mean.
+
+8'd255, 12'hABC, 1'b0, 1'b1
+
+If a variable “holds constants,” declare it with the minimum needed width and use sized constants to match:
+
+reg [3:0] nibble = 4'd10;     // sized literal matches width
+wire [1:0] sel   = 2'b01;
+
+
+For parameters:
+
+parameter WIDTH = 12;
+localparam [WIDTH-1:0] MASK = {WIDTH{1'b1}}; // width-safe
+
+
+In SystemVerilog, prefer logic for ports/regs and use $bits(signal) or int'(expr) casts to size/convert cleanly:
+
+logic [7:0] a = 8'(5);     // sized cast
+
+Common gotchas to remember
+
+Driving a wire inside always → illegal.
+
+Driving a reg with assign → illegal.
+
+Leaving a wire undriven → it floats to z, not a stored value.
+
+Declaring input reg (pure Verilog) → illegal (use input wire or just input; or use SystemVerilog logic).
 Summary
 Abstraction Levels: Switch → Gate → RTL → Algorithmic
 
