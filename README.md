@@ -371,6 +371,74 @@ Driving a reg with assign → illegal.
 Leaving a wire undriven → it floats to z, not a stored value.
 
 Declaring input reg (pure Verilog) → illegal (use input wire or just input; or use SystemVerilog logic).
+
+upply0 and supply1
+
+These are special net types in Verilog that are permanently tied to logic 0 and 1.
+
+supply0 = logic 0 (ground, GND)
+
+supply1 = logic 1 (power, VDD)
+
+They’re stronger than wire or reg — like hardwired constants.
+
+Example:
+module supply_example(output wire a, output wire b);
+
+  // declare nets
+  supply0 gnd;   // always 0
+  supply1 vdd;   // always 1
+
+  // connect them
+  assign a = gnd; // a is tied to 0
+  assign b = vdd; // b is tied to 1
+
+endmodule
+
+
+In hardware this models a pin connected straight to GND or VDD.
+
+2. parameter and parameter [range]
+
+A parameter is a constant you can set inside a module.
+You can make it a scalar, a vector (with [range]), or give it a value.
+
+Example (scalar parameter):
+module param_ex1;
+  parameter WIDTH = 8;          // scalar constant
+  reg [WIDTH-1:0] data;         // uses WIDTH to size reg
+endmodule
+
+Example (vector parameter):
+module param_ex2;
+  parameter [7:0] INIT_VAL = 8'hA5; // 8-bit parameter with default value
+  reg [7:0] r = INIT_VAL;           // initialize register with parameter
+endmodule
+
+
+Here:
+
+parameter [7:0] INIT_VAL means "this parameter is 8 bits wide."
+
+Its default value is 8'hA5 (hex A5 = 1010_0101).
+
+When you instantiate, you can override the parameter:
+
+param_ex2 #(.INIT_VAL(8'hFF)) u1();  // now INIT_VAL = 11111111
+
+✅ Putting both together
+module top;
+  supply0 GND;      // tied to logic 0
+  supply1 VDD;      // tied to logic 1
+
+  parameter [7:0] CONST = 8'd63;  // 8-bit constant
+
+  wire [7:0] sig0, sig1;
+
+  assign sig0 = {8{GND}};   // sig0 = 00000000
+  assign sig1 = CONST & {8{VDD}}; // sig1 = CONST (since VDD = 1s)
+
+endmodule
 Summary
 Abstraction Levels: Switch → Gate → RTL → Algorithmic
 
