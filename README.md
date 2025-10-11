@@ -439,6 +439,125 @@ module top;
   assign sig1 = CONST & {8{VDD}}; // sig1 = CONST (since VDD = 1s)
 
 endmodule
+
+9. Operators in Verilog
+
+Verilog provides arithmetic, relational, logical, bitwise, shift, concatenation, replication, conditional, and precedence rules.
+Operands can be wires, regs, parameters, part-selects, or function return values.
+
+9.1 Arithmetic Operators
+
++ , - , * , / , % → standard arithmetic
+
+Can be binary (a + b) or unary (-a)
+
+Operands treated as unsigned unless declared signed
+
+reg [3:0] a = 4'd5, b = 4'd2;
+reg [4:0] sum = a + b;   // 7
+reg signed [3:0] c = -4'd3;
+
+9.2 Relational Operators
+
+==, !=, <, <=, >, >=
+
+Return 1-bit result: 1'b1 (true) or 1'b0 (false)
+
+wire cmp1 = (4'd3 > 4'd2);   // 1
+wire cmp2 = (4'd3 == 4'd5);  // 0
+
+9.3 Bitwise vs. Logical Operators
+
+Bitwise (& | ^ ~) → operate on each bit of the vector
+
+Logical (&& || !) → treat whole vector as true/false, return 1-bit
+
+reg [3:0] x = 4'b1100, y = 4'b1010;
+
+wire [3:0] bw_and = x & y; // 1000
+wire log_and = x && y;     // 1 (both nonzero)
+
+9.4 Shift Operators
+
+<<, >> shift left/right, fill with zeros
+
+Arithmetic shift (<<<, >>>) in SystemVerilog preserves sign
+
+reg [3:0] val = 4'b0011;
+wire [3:0] s1 = val << 1;  // 0110
+wire [3:0] s2 = val >> 1;  // 0001
+
+9.5 Concatenation and Replication
+
+Concatenation {} joins signals
+
+Replication {n{item}} repeats pattern
+
+wire [1:0] a = 2'b10, b = 2'b01;
+wire [3:0] concat = {a, b};   // 1001
+wire [7:0] rep = {4{2'b10}};  // 10101010
+
+9.6 Conditional Operator (ternary)
+
+Syntax:
+
+assign out = (sel) ? x : y;
+
+
+If sel = 1 → out = x, else out = y
+
+9.7 Operator Precedence (common)
+
+From highest to lowest:
+
+! ~ + - (unary)
+
+* / %
+
++ - (binary)
+
+<< >>
+
+< <= > >=
+
+== !=
+
+&
+
+^ ^~ ~^
+
+|
+
+&&
+
+||
+
+?: (conditional)
+
+Use parentheses () to make expressions clear.
+
+9.8 Literals
+
+String literals → "Hello"
+
+Numeric literals → [size]'[radix][value]
+
+Example: 8'b10101010, 12'hABC, 4'd9
+
+reg [7:0] msg [0:3] = {"H","i","!","\n"};
+reg [3:0] num = 4'd9;
+
+9.9 Function Return Values
+
+A function call can be used directly in expressions, without extra storage.
+
+function [3:0] square(input [3:0] in);
+  square = in * in;
+endfunction
+
+wire [7:0] result = square(4'd3) + 4'd5; // (3*3)+5=14
+
+
 Summary
 Abstraction Levels: Switch → Gate → RTL → Algorithmic
 
