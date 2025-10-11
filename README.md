@@ -15,6 +15,7 @@ It is written as a learning reference with **explanations and example codes**.
 6. Hexadecimal Conversion Table
 7. Verilog Keywords
 8. Verilog Data Types & Logic Values
+9. Operators in Verilog
 
 ---
 
